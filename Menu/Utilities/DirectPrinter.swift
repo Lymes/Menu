@@ -4,6 +4,12 @@ final class DirectPrinter: NSObject {
 
     static let shared = DirectPrinter()
 
+    // MARK: - Presentation configuration
+
+    /// If set, this controller will be used to present the printer picker.
+    /// This is the most robust path on iPad (multi-window / multiple scenes).
+    weak var presenterViewController: UIViewController?
+
     // MARK: - Public API
 
     func printText(_ text: String) {
@@ -49,12 +55,29 @@ final class DirectPrinter: NSObject {
         resolvePrinterName(from: url, completion: completion)
     }
 
-    // MARK: - Internals (RELEASE)
+    // MARK: - Internals
 
     private func pickPrinter(completion: @escaping (UIPrinter?) -> Void) {
         let picker = UIPrinterPickerController(initiallySelectedPrinter: nil)
-        picker.present(animated: true) { controller, userDidSelect, _ in
-            completion(userDidSelect ? controller.selectedPrinter : nil)
+
+        DispatchQueue.main.async {
+            guard let presenter = (self.presenterViewController ?? Self.topMostViewController()) else {
+                print("Nessun VC disponibile per presentare UIPrinterPickerController")
+                completion(nil)
+                return
+            }
+
+            // If something is already presented (like a SwiftUI sheet), present from that host.
+            let host = presenter.presentedViewController ?? presenter
+
+            // Present using the iPad-safe API that anchors the popover.
+            // We anchor to the bottom-center of the host view to avoid weird arrow placement.
+            let bounds = host.view.bounds
+            let anchor = CGRect(x: bounds.midX - 1, y: bounds.maxY - 2, width: 2, height: 2)
+
+            picker.present(from: anchor, in: host.view, animated: true) { controller, userDidSelect, _ in
+                completion(userDidSelect ? controller.selectedPrinter : nil)
+            }
         }
     }
 
@@ -90,5 +113,26 @@ final class DirectPrinter: NSObject {
             completion(available ? printer.displayName : nil)
         }
     }
-}
 
+    // MARK: - Presentation helper
+
+    static func topMostViewController() -> UIViewController? {
+        // Prefer foreground active scene for iPad multi-window.
+        let scenes = UIApplication.shared.connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+
+        let ordered = scenes.sorted {
+            ($0.activationState == .foregroundActive ? 0 : 1) < ($1.activationState == .foregroundActive ? 0 : 1)
+        }
+
+        for scene in ordered {
+            guard let root = scene.windows.first(where: { $0.isKeyWindow })?.rootViewController else { continue }
+            var current = root
+            while let next = current.presentedViewController {
+                current = next
+            }
+            return current
+        }
+        return nil
+    }
+}

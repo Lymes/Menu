@@ -12,6 +12,7 @@ struct TicketPreviewView: View {
     let text: String
     let onSend: () -> Void
     let onClose: () -> Void
+    @Environment(\.appTheme) private var theme
 
     var body: some View {
         NavigationStack {
@@ -22,7 +23,7 @@ struct TicketPreviewView: View {
                     .padding()
                     .background(Color(.systemBackground))
             }
-            .tint(AppTheme.orange)
+            .tint(theme.accent)
             .navigationTitle(NSLocalizedString("Anteprima", comment: "Preview"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -35,6 +36,6 @@ struct TicketPreviewView: View {
                 }
             }
         }
-        .tint(AppTheme.orange)
+        .tint(theme.accent)
     }
 }

@@ -92,18 +92,6 @@ extension DirectPrinter {
             host.present(preview, animated: true, completion: nil)
         }
     }
-
-    static func topMostViewController() -> UIViewController? {
-        guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-              let root = scene.windows.first(where: { $0.isKeyWindow })?.rootViewController else {
-            return nil
-        }
-        var current = root
-        while let next = current.presentedViewController {
-            current = next
-        }
-        return current
-    }
 }
 
 #endif

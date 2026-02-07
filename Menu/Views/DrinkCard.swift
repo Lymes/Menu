@@ -7,6 +7,8 @@ struct DrinkCard: View {
     let onMinus: () -> Void
     let onPlus: () -> Void
 
+    @Environment(\.appTheme) private var theme
+
     var body: some View {
         VStack(spacing: 8) {
             image
@@ -31,15 +33,15 @@ struct DrinkCard: View {
                         .font(.title2)
                 }
             }
-            .tint(AppTheme.orange)
+            .tint(theme.accent)
             .foregroundStyle(.primary)
         }
         .frame(maxWidth: .infinity)
         .padding(10)
         .background(Color(.secondarySystemBackground))
         .overlay(
-            RoundedRectangle(cornerRadius: 10)
-                .stroke(quantity > 0 ? AppTheme.selectionStroke : Color.clear, lineWidth: 1)
+            RoundedRectangle(cornerRadius: 12)
+                .stroke(quantity > 0 ? theme.selectionStroke : Color.clear, lineWidth: 1)
         )
         .clipShape(RoundedRectangle(cornerRadius: 10))
     }

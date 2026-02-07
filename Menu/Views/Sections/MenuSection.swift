@@ -5,12 +5,13 @@ struct MenuSection: View {
     let containerWidth: CGFloat
     let menus: [MenuItem]
     @Binding var selectedMenu: MenuItem?
+    @Environment(\.appTheme) private var theme
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text(NSLocalizedString("Menu Fissi", comment: "Fixed Menus"))
+        VStack(alignment: .leading, spacing: 12) {
+            Text(NSLocalizedString("Menu Fissi", comment: "Menu section title"))
                 .font(.headline)
-                .foregroundStyle(AppTheme.selectionStroke)
+                .foregroundStyle(theme.selectionStroke)
 
             switch layoutStyle {
             case .grid:
@@ -30,10 +31,9 @@ struct MenuSection: View {
                     SelectableRow(
                         title: item.title,
                         image: thumbnail(item.imageName, fallback: "takeoutbag.and.cup.and.straw"),
-                        isSelected: selectedMenu == item
+                        isSelected: selectedMenu == item,
+                        onTap: { selectedMenu = item }
                     )
-                    .contentShape(Rectangle())
-                    .onTapGesture { selectedMenu = item }
                 }
                 .listStyle(.plain)
                 .frame(height: 220)

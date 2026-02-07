@@ -5,12 +5,13 @@ struct DrinksSection: View {
     let containerWidth: CGFloat
     @Binding var drinks: [DrinkItem]
     let updateDrink: (_ index: Int, _ delta: Int) -> Void
+    @Environment(\.appTheme) private var theme
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text(NSLocalizedString("Bevande", comment: "Drinks"))
+        VStack(alignment: .leading, spacing: 12) {
+            Text(NSLocalizedString("Bevande", comment: "Drinks section title"))
                 .font(.headline)
-                .foregroundStyle(AppTheme.selectionStroke)
+                .foregroundStyle(theme.selectionStroke)
 
             switch layoutStyle {
             case .grid:

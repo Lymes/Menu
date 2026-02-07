@@ -9,9 +9,13 @@ import SwiftUI
 
 @main
 struct MenuApp: App {
+    @StateObject private var themeSettings = ThemeSettings()
+
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(themeSettings)
+                .appTheme(themeSettings.theme)
         }
     }
 }

@@ -8,6 +8,8 @@ struct BottomBar: View {
     let onChangePrinter: () -> Void
     let onForgetPrinter: (() -> Void)?
 
+    @Environment(\.appTheme) private var theme
+
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             Group {
@@ -25,7 +27,7 @@ struct BottomBar: View {
                 .font(.title3)
                 .padding(.vertical, 12)
                 .frame(maxWidth: .infinity)
-                .background(isSending ? Color.orange.opacity(0.6) : Color.orange.opacity(0.9))
+                .background(theme.primaryButtonBackground(isEnabled: true, isLoading: isSending))
                 .foregroundColor(.white)
                 .clipShape(RoundedRectangle(cornerRadius: 12))
                 .contextMenu {
@@ -38,13 +40,13 @@ struct BottomBar: View {
             Button(NSLocalizedString("Cambia stampante", comment: "Change printer"), action: onChangePrinter)
                 .font(.callout)
                 .frame(maxWidth: .infinity)
-                .tint(.orange)
+                .tint(theme.accent)
         }
         .padding(14)
         .background(.thinMaterial)
         .overlay(
             RoundedRectangle(cornerRadius: 16)
-                .stroke(AppTheme.selectionStroke.opacity(0.25), lineWidth: 1)
+                .stroke(theme.selectionStroke.opacity(0.25), lineWidth: 1)
         )
         .clipShape(RoundedRectangle(cornerRadius: 16))
         .padding(.horizontal)

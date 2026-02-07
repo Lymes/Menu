@@ -16,10 +16,13 @@ struct ContentView: View {
     @State private var isSending: Bool = false
     @StateObject private var model = PrinterModel()
 
+    @EnvironmentObject private var themeSettings: ThemeSettings
+    @Environment(\.appTheme) private var theme
+
     var body: some View {
         NavigationStack {
             ZStack {
-                AppTheme.backgroundWash
+                theme.backgroundWash
                     .ignoresSafeArea()
 
                 GeometryReader { geo in
@@ -61,13 +64,36 @@ struct ContentView: View {
                         .offset(y: 0.5)
                         .accessibilityLabel("Legrand")
                 }
+
+                ToolbarItem(placement: .topBarTrailing) {
+                    Menu {
+                        Picker(NSLocalizedString("Tema", comment: "Theme"), selection: $themeSettings.scheme) {
+                            ForEach(AppColorScheme.allCases) { scheme in
+                                Text(scheme.displayName).tag(scheme)
+                            }
+                        }
+                    } label: {
+                        Label(
+                            NSLocalizedString("Tema", comment: "Theme"),
+                            systemImage: "paintpalette"
+                        )
+                    }
+                    .accessibilityLabel(NSLocalizedString("Tema", comment: "Theme"))
+                }
             }
             .safeAreaInset(edge: .bottom) {
                 bottomBar
             }
         }
-        .tint(.orange)
+        .tint(theme.accent)
         .onAppear { model.refreshName() }
+        // Provide a reliable UIKit presenter for iPad popovers (printer picker)
+        .background(
+            ViewControllerPresenter { vc in
+                DirectPrinter.shared.presenterViewController = vc
+            }
+            .frame(width: 0, height: 0)
+        )
         .sheet(isPresented: $showPreview) {
             TicketPreviewView(
                 text: composeTicket(),
@@ -157,8 +183,20 @@ struct ContentView: View {
 #if DEBUG
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
-            .environment(\.locale, Locale(identifier: "de"))
+        Group {
+            ContentView()
+                .appTheme(AppTheme(.orange))
+                .previewDisplayName("Orange")
+
+            ContentView()
+                .appTheme(AppTheme(.blue))
+                .previewDisplayName("Blue")
+
+            ContentView()
+                .appTheme(AppTheme(.red))
+                .previewDisplayName("Red")
+        }
+        .environment(\.locale, Locale(identifier: "de"))
     }
 }
 #endif

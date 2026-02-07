@@ -6,6 +6,7 @@ struct DrinkRow: View {
     let quantity: Int
     let onMinus: () -> Void
     let onPlus: () -> Void
+    @Environment(\.appTheme) private var theme
 
     var body: some View {
         HStack(spacing: 12) {
@@ -33,7 +34,7 @@ struct DrinkRow: View {
                         .font(.title3)
                 }
             }
-            .tint(AppTheme.orange)
+            .tint(theme.accent)
         }
         .padding(.vertical, 6)
     }
