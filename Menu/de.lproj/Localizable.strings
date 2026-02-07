@@ -1,0 +1,21 @@
+/* German translations */
+"Griglia" = "Gitter";
+"Elenco" = "Liste";
+"Menu Fissi" = "Feste Menüs";
+"Bevande" = "Getränke";
+"Stampante corrente: %1$@" = "Aktueller Drucker: %1$@";
+"Nessuna stampante selezionata" = "Kein Drucker ausgewählt";
+"Cambia stampante" = "Drucker wechseln";
+"Dimentica stampante" = "Drucker vergessen";
+"Chiudi" = "Schließen";
+"Invia" = "Senden";
+"Anteprima" = "Vorschau";
+"Ordine Stanza 1" = "Bestellung Zimmer 1";
+"=== Ordine Stanza 1 ===" = "=== Bestellung Zimmer 1 ===";
+"Stanza: 1" = "Zimmer: 1";
+"Data/Ora: %1$@" = "Datum/Uhrzeit: %1$@";
+"Menu: %1$@" = "Menü: %1$@";
+"Menu: —" = "Menü: —";
+"Bevande: nessuna" = "Keine Getränke";
+"Bevande:" = "Getränke:";
+"Grazie!" = "Danke!";

@@ -1,0 +1,21 @@
+/* English translations */
+"Griglia" = "Grid";
+"Elenco" = "List";
+"Menu Fissi" = "Fixed Menus";
+"Bevande" = "Drinks";
+"Stampante corrente: %1$@" = "Current printer: %1$@";
+"Nessuna stampante selezionata" = "No printer selected";
+"Cambia stampante" = "Change printer";
+"Dimentica stampante" = "Forget printer";
+"Chiudi" = "Close";
+"Invia" = "Send";
+"Anteprima" = "Preview";
+"Ordine Stanza 1" = "Order Room 1";
+"=== Ordine Stanza 1 ===" = "=== Order Room 1 ===";
+"Stanza: 1" = "Room: 1";
+"Data/Ora: %1$@" = "Date/Time: %1$@";
+"Menu: %1$@" = "Menu: %1$@";
+"Menu: —" = "Menu: —";
+"Bevande: nessuna" = "Drinks: none";
+"Bevande:" = "Drinks:";
+"Grazie!" = "Thank you!";
