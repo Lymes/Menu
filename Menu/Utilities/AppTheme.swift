@@ -26,7 +26,7 @@ enum AppColorScheme: String, CaseIterable, Identifiable {
 struct AppTheme: Equatable {
     let scheme: AppColorScheme
 
-    init(_ scheme: AppColorScheme = .orange) {
+    init(_ scheme: AppColorScheme = .red) {
         self.scheme = scheme
     }
 

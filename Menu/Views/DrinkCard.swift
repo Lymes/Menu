@@ -10,7 +10,7 @@ struct DrinkCard: View {
     @Environment(\.appTheme) private var theme
 
     private let cornerRadius: CGFloat = 14
-    private let bottomBarHeight: CGFloat = 100
+    private let bottomBarHeight: CGFloat = 50
 
     var body: some View {
         // Fixed-size container (1:1) that NEVER changes based on content
@@ -120,10 +120,10 @@ struct DrinkCard: View {
         .padding(.vertical, 10)
         .padding(.horizontal, 12)
         .background(
-            RoundedRectangle(cornerRadius: 18, style: .continuous)
+            RoundedRectangle(cornerRadius: 12, style: .continuous)
                 .fill(Color.black.opacity(0.35))
                 .overlay(
-                    RoundedRectangle(cornerRadius: 18, style: .continuous)
+                    RoundedRectangle(cornerRadius: 12, style: .continuous)
                         .stroke(Color.white.opacity(0.10), lineWidth: 1)
                 )
         )

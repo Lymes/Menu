@@ -135,7 +135,6 @@ struct ContentView: View {
         let now = Date().formatted(date: .abbreviated, time: .shortened)
         var lines: [String] = []
         lines.append(NSLocalizedString("=== Ordine Stanza 1 ===", comment: "Order Room 1 header"))
-        lines.append("\n")
         lines.append(NSLocalizedString("Stanza: 1", comment: "Room number"))
         lines.append(String(format: NSLocalizedString("Data/Ora: %1$@", comment: "Date/Time"), now))
         lines.append("")
