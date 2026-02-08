@@ -32,14 +32,14 @@ struct ContentView: View {
 
                             MenuSection(
                                 layoutStyle: layoutStyle,
-                                containerWidth: geo.size.width,
+                                containerWidth: max(0, geo.size.width - 32),
                                 menus: menus,
                                 selectedMenu: $selectedMenu
                             )
 
                             DrinksSection(
                                 layoutStyle: layoutStyle,
-                                containerWidth: geo.size.width,
+                                containerWidth: max(0, geo.size.width - 32),
                                 drinks: $drinks,
                                 updateDrink: updateDrink(at:delta:)
                             )
@@ -124,10 +124,9 @@ struct ContentView: View {
         isSending ? NSLocalizedString("Invia", comment: "Send button") : NSLocalizedString("Anteprima", comment: "Preview button")
     }
 
-    // Aggiorna quantità bevanda (0...20)
+    // Aggiorna quantità bevanda (0...∞)
     private func updateDrink(at index: Int, delta: Int) {
-        var q = drinks[index].quantity + delta
-        q = max(0, min(20, q))
+        let q = max(0, drinks[index].quantity + delta)
         drinks[index].quantity = q
     }
 

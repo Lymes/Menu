@@ -15,7 +15,8 @@ struct DrinksSection: View {
 
             switch layoutStyle {
             case .grid:
-                AdaptiveGrid(containerWidth: containerWidth) {
+                // Drinks can pack more columns; size is still clamped by AdaptiveGrid rules.
+                AdaptiveGrid(containerWidth: containerWidth, minItemSize: 150, maxColumns: 3) {
                     ForEach(drinks.indices, id: \.self) { idx in
                         DrinkCard(
                             title: drinks[idx].title,
@@ -28,7 +29,7 @@ struct DrinksSection: View {
                 }
 
             case .list:
-                List {
+                LazyVStack(spacing: 10) {
                     ForEach(drinks.indices, id: \.self) { idx in
                         DrinkRow(
                             title: drinks[idx].title,
@@ -37,10 +38,11 @@ struct DrinksSection: View {
                             onMinus: { updateDrink(idx, -1) },
                             onPlus: { updateDrink(idx, +1) }
                         )
+                        .frame(maxWidth: .infinity)
+                        .background(Color(.secondarySystemBackground))
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
                     }
                 }
-                .listStyle(.plain)
-                .frame(height: 300)
             }
         }
     }

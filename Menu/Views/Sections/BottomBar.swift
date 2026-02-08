@@ -43,7 +43,7 @@ struct BottomBar: View {
                 .tint(theme.accent)
         }
         .padding(14)
-        .background(.thinMaterial)
+        .background(.ultraThinMaterial)
         .overlay(
             RoundedRectangle(cornerRadius: 16)
                 .stroke(theme.selectionStroke.opacity(0.25), lineWidth: 1)

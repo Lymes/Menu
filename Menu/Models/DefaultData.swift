@@ -7,7 +7,7 @@ let defaultMenus: [MenuItem] = [
 ]
 
 let defaultDrinks: [DrinkItem] = [
-    .init(title: "Coca‑Cola", imageName: "cola",  quantity: 0),
+    .init(title: "Coca‑Cola", imageName: "coca-cola",  quantity: 0),
     .init(title: "Acqua",     imageName: "water", quantity: 0),
     .init(title: "Birra",     imageName: "beer",  quantity: 0)
 ]

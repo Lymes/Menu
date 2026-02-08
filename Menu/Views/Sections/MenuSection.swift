@@ -7,6 +7,11 @@ struct MenuSection: View {
     @Binding var selectedMenu: MenuItem?
     @Environment(\.appTheme) private var theme
 
+    private func menuThumbnail(for item: MenuItem) -> Image {
+        // Use the same thumbnail for all menu items.
+        thumbnail("menu1", fallback: "takeoutbag.and.cup.and.straw")
+    }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text(NSLocalizedString("Menu Fissi", comment: "Menu section title"))
@@ -15,11 +20,11 @@ struct MenuSection: View {
 
             switch layoutStyle {
             case .grid:
-                AdaptiveGrid(containerWidth: containerWidth) {
+                AdaptiveGrid(containerWidth: containerWidth, minItemSize: 150, maxColumns: 3) {
                     ForEach(menus) { item in
                         SelectableCard(
                             title: item.title,
-                            image: thumbnail(item.imageName, fallback: "takeoutbag.and.cup.and.straw"),
+                            image: menuThumbnail(for: item),
                             isSelected: selectedMenu == item,
                             onTap: { selectedMenu = item }
                         )
@@ -30,7 +35,7 @@ struct MenuSection: View {
                 List(menus, id: \.id) { item in
                     SelectableRow(
                         title: item.title,
-                        image: thumbnail(item.imageName, fallback: "takeoutbag.and.cup.and.straw"),
+                        image: menuThumbnail(for: item),
                         isSelected: selectedMenu == item,
                         onTap: { selectedMenu = item }
                     )
