@@ -1,0 +1,41 @@
+{
+  "" : {
+    "const-values" : "/Users/leonid.mesentsev/Development/test/Menu/build/Menu.build/Release-iphoneos/MenuServer.build/Objects-normal/arm64/MenuServer-primary.swiftconstvalues",
+    "dependencies" : "/Users/leonid.mesentsev/Development/test/Menu/build/Menu.build/Release-iphoneos/MenuServer.build/Objects-normal/arm64/MenuServer-primary.d",
+    "diagnostics" : "/Users/leonid.mesentsev/Development/test/Menu/build/Menu.build/Release-iphoneos/MenuServer.build/Objects-normal/arm64/MenuServer-primary.dia",
+    "emit-module-dependencies" : "/Users/leonid.mesentsev/Development/test/Menu/build/Menu.build/Release-iphoneos/MenuServer.build/Objects-normal/arm64/MenuServer-primary-emit-module.d",
+    "emit-module-diagnostics" : "/Users/leonid.mesentsev/Development/test/Menu/build/Menu.build/Release-iphoneos/MenuServer.build/Objects-normal/arm64/MenuServer-primary-emit-module.dia",
+    "pch" : "/Users/leonid.mesentsev/Development/test/Menu/build/Menu.build/Release-iphoneos/MenuServer.build/Objects-normal/arm64/MenuServer-primary-Bridging-header.pch",
+    "swift-dependencies" : "/Users/leonid.mesentsev/Development/test/Menu/build/Menu.build/Release-iphoneos/MenuServer.build/Objects-normal/arm64/MenuServer-primary.swiftdeps"
+  },
+  "/Users/leonid.mesentsev/Development/test/Menu/MenuServer/MenuServerApp.swift" : {
+    "index-unit-output-path" : "/Menu.build/Release-iphoneos/MenuServer.build/Objects-normal/arm64/MenuServerApp.o",
+    "llvm-bc" : "/Users/leonid.mesentsev/Development/test/Menu/build/Menu.build/Release-iphoneos/MenuServer.build/Objects-normal/arm64/MenuServerApp.bc",
+    "object" : "/Users/leonid.mesentsev/Development/test/Menu/build/Menu.build/Release-iphoneos/MenuServer.build/Objects-normal/arm64/MenuServerApp.o"
+  },
+  "/Users/leonid.mesentsev/Development/test/Menu/MenuServer/Models/Order.swift" : {
+    "index-unit-output-path" : "/Menu.build/Release-iphoneos/MenuServer.build/Objects-normal/arm64/Order.o",
+    "llvm-bc" : "/Users/leonid.mesentsev/Development/test/Menu/build/Menu.build/Release-iphoneos/MenuServer.build/Objects-normal/arm64/Order.bc",
+    "object" : "/Users/leonid.mesentsev/Development/test/Menu/build/Menu.build/Release-iphoneos/MenuServer.build/Objects-normal/arm64/Order.o"
+  },
+  "/Users/leonid.mesentsev/Development/test/Menu/MenuServer/Models/OrderStore.swift" : {
+    "index-unit-output-path" : "/Menu.build/Release-iphoneos/MenuServer.build/Objects-normal/arm64/OrderStore.o",
+    "llvm-bc" : "/Users/leonid.mesentsev/Development/test/Menu/build/Menu.build/Release-iphoneos/MenuServer.build/Objects-normal/arm64/OrderStore.bc",
+    "object" : "/Users/leonid.mesentsev/Development/test/Menu/build/Menu.build/Release-iphoneos/MenuServer.build/Objects-normal/arm64/OrderStore.o"
+  },
+  "/Users/leonid.mesentsev/Development/test/Menu/MenuServer/Models/OrderTransferData.swift" : {
+    "index-unit-output-path" : "/Menu.build/Release-iphoneos/MenuServer.build/Objects-normal/arm64/OrderTransferData.o",
+    "llvm-bc" : "/Users/leonid.mesentsev/Development/test/Menu/build/Menu.build/Release-iphoneos/MenuServer.build/Objects-normal/arm64/OrderTransferData.bc",
+    "object" : "/Users/leonid.mesentsev/Development/test/Menu/build/Menu.build/Release-iphoneos/MenuServer.build/Objects-normal/arm64/OrderTransferData.o"
+  },
+  "/Users/leonid.mesentsev/Development/test/Menu/MenuServer/Services/BonjourService.swift" : {
+    "index-unit-output-path" : "/Menu.build/Release-iphoneos/MenuServer.build/Objects-normal/arm64/BonjourService.o",
+    "llvm-bc" : "/Users/leonid.mesentsev/Development/test/Menu/build/Menu.build/Release-iphoneos/MenuServer.build/Objects-normal/arm64/BonjourService.bc",
+    "object" : "/Users/leonid.mesentsev/Development/test/Menu/build/Menu.build/Release-iphoneos/MenuServer.build/Objects-normal/arm64/BonjourService.o"
+  },
+  "/Users/leonid.mesentsev/Development/test/Menu/MenuServer/Views/ServerContentView.swift" : {
+    "index-unit-output-path" : "/Menu.build/Release-iphoneos/MenuServer.build/Objects-normal/arm64/ServerContentView.o",
+    "llvm-bc" : "/Users/leonid.mesentsev/Development/test/Menu/build/Menu.build/Release-iphoneos/MenuServer.build/Objects-normal/arm64/ServerContentView.bc",
+    "object" : "/Users/leonid.mesentsev/Development/test/Menu/build/Menu.build/Release-iphoneos/MenuServer.build/Objects-normal/arm64/ServerContentView.o"
+  }
+}

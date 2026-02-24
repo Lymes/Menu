@@ -9,7 +9,7 @@ struct DrinksSection: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text(NSLocalizedString("Bevande", comment: "Drinks section title"))
+            Text(NSLocalizedString("Drinks", comment: "Drinks section title"))
                 .font(.headline)
                 .foregroundStyle(theme.selectionStroke)
 

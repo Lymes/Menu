@@ -1,0 +1,12 @@
+{
+  "/Users/leonid.mesentsev/Development/test/Menu/MenuServer/Models/Order.swift" : {
+    "abi-baseline-json" : "/Users/leonid.mesentsev/Development/test/Menu/build/Menu.build/Release-iphoneos/MenuServer.build/Objects-normal/arm64/MenuServer.abi.json",
+    "const-values" : "/Users/leonid.mesentsev/Development/test/Menu/build/Menu.build/Release-iphoneos/MenuServer.build/Objects-normal/arm64/MenuServer-primary.swiftconstvalues",
+    "dependencies" : "/Users/leonid.mesentsev/Development/test/Menu/build/Menu.build/Release-iphoneos/MenuServer.build/Objects-normal/arm64/MenuServer-primary.d",
+    "diagnostics" : "/Users/leonid.mesentsev/Development/test/Menu/build/Menu.build/Release-iphoneos/MenuServer.build/Objects-normal/arm64/MenuServer-primary.dia",
+    "objc-header" : "/Users/leonid.mesentsev/Development/test/Menu/build/Menu.build/Release-iphoneos/MenuServer.build/Objects-normal/arm64/MenuServer-Swift.h",
+    "swiftdoc" : "/Users/leonid.mesentsev/Development/test/Menu/build/Menu.build/Release-iphoneos/MenuServer.build/Objects-normal/arm64/MenuServer.swiftdoc",
+    "swiftmodule" : "/Users/leonid.mesentsev/Development/test/Menu/build/Menu.build/Release-iphoneos/MenuServer.build/Objects-normal/arm64/MenuServer.swiftmodule",
+    "swiftsourceinfo" : "/Users/leonid.mesentsev/Development/test/Menu/build/Menu.build/Release-iphoneos/MenuServer.build/Objects-normal/arm64/MenuServer.swiftsourceinfo"
+  }
+}

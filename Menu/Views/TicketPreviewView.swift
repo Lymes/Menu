@@ -24,14 +24,14 @@ struct TicketPreviewView: View {
                     .background(Color(.systemBackground))
             }
             .tint(theme.accent)
-            .navigationTitle(NSLocalizedString("Anteprima", comment: "Preview"))
+            .navigationTitle(NSLocalizedString("Preview", comment: "Preview"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button(NSLocalizedString("Chiudi", comment: "Close"), action: onClose)
+                    Button(NSLocalizedString("Close", comment: "Close"), action: onClose)
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button(NSLocalizedString("Invia", comment: "Send"), action: onSend)
+                    Button(NSLocalizedString("Send", comment: "Send"), action: onSend)
                         .bold()
                 }
             }

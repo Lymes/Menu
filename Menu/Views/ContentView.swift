@@ -6,7 +6,7 @@ struct ContentView: View {
 
     // Menu
     @State private var menus: [MenuItem] = defaultMenus
-    @State private var selectedMenu: MenuItem? = defaultMenus.first
+    @State private var selectedMenu: MenuItem? = nil
 
     // Bevande
     @State private var drinks: [DrinkItem] = defaultDrinks
@@ -14,9 +14,10 @@ struct ContentView: View {
     // UI stato
     @State private var showPreview: Bool = false
     @State private var isSending: Bool = false
-    @StateObject private var model = PrinterModel()
+    @State private var showServerError: Bool = false
 
     @EnvironmentObject private var themeSettings: ThemeSettings
+    @EnvironmentObject private var orderSender: OrderSenderService
     @Environment(\.appTheme) private var theme
 
     var body: some View {
@@ -51,7 +52,7 @@ struct ContentView: View {
                     }
                 }
             }
-            .navigationTitle(NSLocalizedString("Ordine Stanza 1", comment: "Order Room 1 title"))
+            .navigationTitle(NSLocalizedString("Order Room 1", comment: "Order Room 1 title"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
@@ -67,47 +68,69 @@ struct ContentView: View {
 
                 ToolbarItem(placement: .topBarTrailing) {
                     Menu {
-                        Picker(NSLocalizedString("Tema", comment: "Theme"), selection: $themeSettings.scheme) {
+                        Picker(NSLocalizedString("Theme", comment: "Theme"), selection: $themeSettings.scheme) {
                             ForEach(AppColorScheme.allCases) { scheme in
                                 Text(scheme.displayName).tag(scheme)
                             }
                         }
                     } label: {
                         Label(
-                            NSLocalizedString("Tema", comment: "Theme"),
+                            NSLocalizedString("Theme", comment: "Theme"),
                             systemImage: "paintpalette"
                         )
                     }
-                    .accessibilityLabel(NSLocalizedString("Tema", comment: "Theme"))
+                    .accessibilityLabel(NSLocalizedString("Theme", comment: "Theme"))
                 }
             }
             .safeAreaInset(edge: .bottom) {
                 bottomBar
             }
+            .onChange(of: selectedMenu) { oldValue, newValue in
+                print("📝 selectedMenu changed from '\(oldValue?.title ?? "NIL")' to '\(newValue?.title ?? "NIL")'")
+            }
         }
         .tint(theme.accent)
-        .onAppear { model.refreshName() }
-        // Provide a reliable UIKit presenter for iPad popovers (printer picker)
-        .background(
-            ViewControllerPresenter { vc in
-                DirectPrinter.shared.presenterViewController = vc
-            }
-            .frame(width: 0, height: 0)
-        )
         .sheet(isPresented: $showPreview) {
             TicketPreviewView(
                 text: composeTicket(),
                 onSend: {
-                    isSending = true
-                    DirectPrinter.shared.printText(composeTicket())
+                    // Check if server is available
+                    guard !orderSender.discoveredServers.isEmpty else {
+                        showPreview = false
+                        showServerError = true
+                        return
+                    }
 
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                        isSending = false
+                    isSending = true
+
+                    let menuItems = selectedMenu.map { [$0.title] } ?? []
+                    let selectedDrinks = drinks.filter { $0.quantity > 0 }
+                        .map { (name: $0.title, quantity: $0.quantity) }
+
+                    orderSender.sendOrder(
+                        roomNumber: "1",
+                        menuItems: menuItems,
+                        drinks: selectedDrinks
+                    ) { success in
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            isSending = false
+                            if success {
+                                showPreview = false
+                            } else {
+                                showPreview = false
+                                showServerError = true
+                            }
+                        }
                     }
                 },
                 onClose: { showPreview = false }
             )
             .presentationDetents([.medium, .large])
+        }
+        .alert(NSLocalizedString("Server not found", comment: "Server not found"), isPresented: $showServerError) {
+            Button(NSLocalizedString("OK", comment: "OK"), role: .cancel) { }
+        } message: {
+            Text(NSLocalizedString("Cannot find Menu Server on the network. Make sure the server is running and both devices are on the same WiFi network.", comment: "Server error message"))
         }
     }
 
@@ -121,7 +144,7 @@ struct ContentView: View {
     }
 
     private var buttonTitle: String {
-        isSending ? NSLocalizedString("Invia", comment: "Send button") : NSLocalizedString("Anteprima", comment: "Preview button")
+        isSending ? NSLocalizedString("Send", comment: "Send button") : NSLocalizedString("Preview", comment: "Preview button")
     }
 
     // Aggiorna quantità bevanda (0...∞)
@@ -132,49 +155,71 @@ struct ContentView: View {
 
     // Composizione ticket
     private func composeTicket() -> String {
+        print("🔍 Composing ticket - selectedMenu: \(selectedMenu?.title ?? "NIL")")
+
         let now = Date().formatted(date: .abbreviated, time: .shortened)
         var lines: [String] = []
-        lines.append(NSLocalizedString("=== Ordine Stanza 1 ===", comment: "Order Room 1 header"))
-        lines.append(NSLocalizedString("Stanza: 1", comment: "Room number"))
-        lines.append(String(format: NSLocalizedString("Data/Ora: %1$@", comment: "Date/Time"), now))
+        lines.append(NSLocalizedString("=== Order Room 1 ===", comment: "Order Room 1 header"))
+        lines.append(NSLocalizedString("Room: 1", comment: "Room number"))
+        lines.append(String(format: NSLocalizedString("Date/Time: %1$@", comment: "Date/Time"), now))
         lines.append("")
 
         if let menu = selectedMenu {
             lines.append(String(format: NSLocalizedString("Menu: %1$@", comment: "Menu name"), menu.title))
+            print("✅ Menu added to ticket: \(menu.title)")
         } else {
             lines.append(NSLocalizedString("Menu: —", comment: "No menu selected"))
+            print("⚠️ No menu selected")
         }
 
         let chosen = drinks.filter { $0.quantity > 0 }
         if chosen.isEmpty {
-            lines.append(NSLocalizedString("Bevande: nessuna", comment: "No drinks"))
+            lines.append(NSLocalizedString("Drinks: none", comment: "No drinks"))
         } else {
-            lines.append(NSLocalizedString("Bevande:", comment: "Drinks label"))
+            lines.append(NSLocalizedString("Drinks:", comment: "Drinks label"))
             for d in chosen {
                 lines.append(" • \(d.title) x\(d.quantity)")
             }
         }
 
         lines.append("")
-        lines.append(NSLocalizedString("Grazie!", comment: "Thank you"))
+        lines.append(NSLocalizedString("Thank you!", comment: "Thank you"))
         return lines.joined(separator: "\n")
     }
 
     private var bottomBar: some View {
         BottomBar(
-            currentPrinterName: model.currentName,
             isSending: isSending,
             primaryButtonTitle: buttonTitle,
             onPrimary: { showPreview = true },
-            onChangePrinter: {
-                DirectPrinter.shared.changePrinter { newName in
-                    model.setName(newName)
-                }
-            },
-            onForgetPrinter: model.currentName != nil ? {
-                model.clear()
-            } : nil
+            onChangePrinter: nil,
+            onForgetPrinter: nil,
+            onCallWaiter: callWaiter
         )
+    }
+
+    private func callWaiter() {
+        // Check if server is available
+        guard !orderSender.discoveredServers.isEmpty else {
+            showServerError = true
+            return
+        }
+
+        isSending = true
+
+        // Send special service request
+        orderSender.sendOrder(
+            roomNumber: "1",
+            menuItems: [NSLocalizedString("Room service: call waiter", comment: "Room service: call waiter")],
+            drinks: []
+        ) { success in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                isSending = false
+                if !success {
+                    showServerError = true
+                }
+            }
+        }
     }
 }
 

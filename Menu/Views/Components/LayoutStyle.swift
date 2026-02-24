@@ -1,8 +1,8 @@
 import Foundation
 
 enum LayoutStyle: String, CaseIterable, Identifiable {
-    case grid = "Griglia"
-    case list = "Elenco"
+    case grid = "Grid"
+    case list = "List"
 
     var id: String { rawValue }
 

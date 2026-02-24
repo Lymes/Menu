@@ -5,6 +5,7 @@ struct AdaptiveGrid<Content: View>: View {
     let containerWidth: CGFloat
     var minItemSize: CGFloat = 150
     var maxColumns: Int = 6
+    var aspectRatio: CGFloat = 1.0
     @ViewBuilder var content: () -> Content
 
     var body: some View {
@@ -36,7 +37,7 @@ struct AdaptiveGrid<Content: View>: View {
 
         LazyVGrid(columns: columns, alignment: .center, spacing: spacing) {
             content()
-                .frame(width: finalItemSize, height: finalItemSize)
+                .frame(width: finalItemSize, height: finalItemSize / aspectRatio)
                 .clipShape(RoundedRectangle(cornerRadius: cellCornerRadius, style: .continuous))
                 .contentShape(RoundedRectangle(cornerRadius: cellCornerRadius, style: .continuous))
         }

@@ -1,0 +1,18 @@
+/* German translations for MenuServer */
+"Menu Server" = "Menü Server";
+"Server active" = "Server aktiv";
+"Server not active" = "Server nicht aktiv";
+"No orders received" = "Keine Bestellungen empfangen";
+"Delete" = "Löschen";
+"Room" = "Zimmer";
+"Menu:" = "Menü:";
+"Drinks:" = "Getränke:";
+"pending" = "ausstehend";
+"preparing" = "in Vorbereitung";
+"completed" = "abgeschlossen";
+"cancelled" = "storniert";
+"Pending" = "Ausstehend";
+"Preparing" = "In Vorbereitung";
+"Completed" = "Abgeschlossen";
+"Cancelled" = "Storniert";
+"Change status" = "Status ändern";

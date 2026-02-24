@@ -15,74 +15,59 @@ struct DrinkCard: View {
     var body: some View {
         // Fixed-size container (1:1) that NEVER changes based on content
         GeometryReader { geo in
-            ZStack(alignment: .topLeading) {
-                // Background color (stable base)
-                Color(.secondarySystemBackground)
-
-                // Image layer (absolutely positioned, can't influence layout)
-                image
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: geo.size.width, height: geo.size.height)
-                    .clipped()
-                    .allowsHitTesting(false)
-
-                // Gradient overlay
+            ZStack {
+                // Gradient background (subtle theme color)
                 LinearGradient(
-                    stops: [
-                        .init(color: .black.opacity(0.00), location: 0.00),
-                        .init(color: .black.opacity(0.10), location: 0.45),
-                        .init(color: .black.opacity(0.70), location: 1.00)
+                    colors: [
+                        theme.accent.opacity(0.08),
+                        theme.accent.opacity(0.03)
                     ],
-                    startPoint: .top,
-                    endPoint: .bottom
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
                 )
-                .allowsHitTesting(false)
 
-                // Title (top-leading)
-                VStack {
-                    HStack {
-                        Text(title)
-                            .font(.subheadline.weight(.semibold))
-                            .lineLimit(2)
-                            .minimumScaleFactor(0.85)
-                            .multilineTextAlignment(.leading)
-                            .foregroundStyle(.white)
-                            .shadow(color: .black.opacity(0.85), radius: 2, x: 0, y: 1)
-                            .padding(.horizontal, 10)
-                            .padding(.vertical, 8)
-                            .background(
-                                Capsule(style: .continuous)
-                                    .fill(Color.black.opacity(0.35))
-                            )
-                            .padding(10)
-                        Spacer()
-                    }
-                    Spacer()
-                }
-                .allowsHitTesting(false)
+                VStack(alignment: .center, spacing: 0) {
+                    Spacer(minLength: 12)
 
-                // ControlsBar (absolutely positioned at bottom)
-                VStack {
+                    // Icon centered with theme tint
+                    image
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 50, height: 50)
+                        .foregroundStyle(theme.accent)
+                        .padding(.horizontal, 12)
+
+                    // Title text centered below icon (2 rows fixed)
+                    Text(NSLocalizedString(title, comment: "Drink name"))
+                        .font(.caption.weight(.semibold))
+                        .lineLimit(2)
+                        .minimumScaleFactor(0.7)
+                        .multilineTextAlignment(.center)
+                        .foregroundStyle(.primary)
+                        .padding(.horizontal, 10)
+                        .padding(.top, 8)
+                        .frame(maxWidth: .infinity, alignment: .center)
+
                     Spacer()
+
+                    // ControlsBar at bottom
                     controlsBar
                         .frame(height: bottomBarHeight)
                         .padding(.horizontal, 10)
                         .padding(.bottom, 5)
                 }
                 .frame(width: geo.size.width, height: geo.size.height)
-                .zIndex(10)
             }
         }
         .aspectRatio(1, contentMode: .fit)
+        .background(Color(.systemBackground))
         .overlay(
             RoundedRectangle(cornerRadius: cornerRadius)
-                .stroke(Color.black.opacity(0.10), lineWidth: 1)
+                .stroke(theme.accent.opacity(0.25), lineWidth: 1.5)
         )
-        .shadow(color: .black.opacity(0.10), radius: 6, x: 0, y: 3)
+        .shadow(color: theme.accent.opacity(0.15), radius: 8, x: 0, y: 4)
         .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
         .contentShape(RoundedRectangle(cornerRadius: cornerRadius))
-        .clipped()
     }
 
     private var controlsBar: some View {

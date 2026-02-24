@@ -16,7 +16,7 @@ struct DrinkRow: View {
                 .frame(width: 44, height: 44)
                 .cornerRadius(6)
 
-            Text(title)
+            Text(NSLocalizedString(title, comment: "Drink name"))
                 .font(.body)
 
             Spacer()

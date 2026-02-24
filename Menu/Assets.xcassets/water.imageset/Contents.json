@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "plastic-bottle-icon.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

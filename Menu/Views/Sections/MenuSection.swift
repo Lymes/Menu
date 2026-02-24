@@ -14,7 +14,7 @@ struct MenuSection: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text(NSLocalizedString("Menu Fissi", comment: "Menu section title"))
+            Text(NSLocalizedString("Fixed Menus", comment: "Menu section title"))
                 .font(.headline)
                 .foregroundStyle(theme.selectionStroke)
 
@@ -22,23 +22,30 @@ struct MenuSection: View {
             case .grid:
                 AdaptiveGrid(containerWidth: containerWidth, minItemSize: 150, maxColumns: 3) {
                     ForEach(menus) { item in
-                        SelectableCard(
-                            title: item.title,
-                            image: menuThumbnail(for: item),
-                            isSelected: selectedMenu == item,
-                            onTap: { selectedMenu = item }
-                        )
+                        NavigationLink(destination: MenuDetailView(menu: item, selectedMenu: $selectedMenu)) {
+                            SelectableCard(
+                                title: item.title,
+                                image: menuThumbnail(for: item),
+                                isSelected: selectedMenu == item,
+                                onTap: { }
+                            )
+                        }
+                        .buttonStyle(.plain)
+                        .id("\(item.id)-\(selectedMenu?.id.uuidString ?? "none")")
                     }
                 }
 
             case .list:
                 List(menus, id: \.id) { item in
-                    SelectableRow(
-                        title: item.title,
-                        image: menuThumbnail(for: item),
-                        isSelected: selectedMenu == item,
-                        onTap: { selectedMenu = item }
-                    )
+                    NavigationLink(destination: MenuDetailView(menu: item, selectedMenu: $selectedMenu)) {
+                        SelectableRow(
+                            title: item.title,
+                            image: menuThumbnail(for: item),
+                            isSelected: selectedMenu == item,
+                            onTap: { }
+                        )
+                    }
+                    .id("\(item.id)-\(selectedMenu?.id.uuidString ?? "none")")
                 }
                 .listStyle(.plain)
                 .frame(height: 220)

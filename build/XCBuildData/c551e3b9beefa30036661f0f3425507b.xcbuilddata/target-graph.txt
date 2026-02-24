@@ -1,0 +1,2 @@
+Target dependency graph (1 target)
+Target 'MenuServer' in project 'Menu' (no dependencies)
