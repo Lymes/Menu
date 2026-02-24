@@ -15,6 +15,7 @@ struct ContentView: View {
     @State private var showPreview: Bool = false
     @State private var isSending: Bool = false
     @State private var showServerError: Bool = false
+    @State private var showEmptyOrderAlert: Bool = false
 
     @EnvironmentObject private var themeSettings: ThemeSettings
     @EnvironmentObject private var orderSender: OrderSenderService
@@ -52,7 +53,7 @@ struct ContentView: View {
                     }
                 }
             }
-            .navigationTitle(NSLocalizedString("Order Room 1", comment: "Order Room 1 title"))
+            .navigationTitle(String(format: NSLocalizedString("Order Room %d", comment: "Order Room title"), RoomConfig.roomNumber))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
@@ -88,11 +89,21 @@ struct ContentView: View {
             .onChange(of: selectedMenu) { oldValue, newValue in
                 print("📝 selectedMenu changed from '\(oldValue?.title ?? "NIL")' to '\(newValue?.title ?? "NIL")'")
             }
+            .onChange(of: drinks) { oldValue, newValue in
+                let oldCount = oldValue.filter { $0.quantity > 0 }.count
+                let newCount = newValue.filter { $0.quantity > 0 }.count
+                print("📝 drinks changed - items with qty>0: \(oldCount) → \(newCount)")
+                for (idx, drink) in newValue.enumerated() where drink.quantity > 0 {
+                    print("   [\(idx)] \(drink.title) x\(drink.quantity)")
+                }
+            }
         }
         .tint(theme.accent)
         .sheet(isPresented: $showPreview) {
-            TicketPreviewView(
-                text: composeTicket(),
+            let ticketText = composeTicket()
+            print("📄 Sheet opening - generating ticket now")
+            return TicketPreviewView(
+                text: ticketText,
                 onSend: {
                     // Check if server is available
                     guard !orderSender.discoveredServers.isEmpty else {
@@ -103,12 +114,12 @@ struct ContentView: View {
 
                     isSending = true
 
-                    let menuItems = selectedMenu.map { [$0.title] } ?? []
+                    let menuItems = selectedMenu.map { [NSLocalizedString($0.title, comment: "Menu name")] } ?? []
                     let selectedDrinks = drinks.filter { $0.quantity > 0 }
-                        .map { (name: $0.title, quantity: $0.quantity) }
+                        .map { (name: NSLocalizedString($0.title, comment: "Drink name"), quantity: $0.quantity) }
 
                     orderSender.sendOrder(
-                        roomNumber: "1",
+                        roomNumber: "\(RoomConfig.roomNumber)",
                         menuItems: menuItems,
                         drinks: selectedDrinks
                     ) { success in
@@ -132,6 +143,11 @@ struct ContentView: View {
         } message: {
             Text(NSLocalizedString("Cannot find Menu Server on the network. Make sure the server is running and both devices are on the same WiFi network.", comment: "Server error message"))
         }
+        .alert(NSLocalizedString("Nothing Selected", comment: "Nothing selected alert title"), isPresented: $showEmptyOrderAlert) {
+            Button(NSLocalizedString("OK", comment: "OK"), role: .cancel) { }
+        } message: {
+            Text(NSLocalizedString("Please select at least one menu or drink before sending the order.", comment: "Empty order alert message"))
+        }
     }
 
     private var layoutPicker: some View {
@@ -149,8 +165,15 @@ struct ContentView: View {
 
     // Aggiorna quantità bevanda (0...∞)
     private func updateDrink(at index: Int, delta: Int) {
-        let q = max(0, drinks[index].quantity + delta)
-        drinks[index].quantity = q
+        print("🍹 updateDrink called - index: \(index), delta: \(delta), current qty: \(drinks[index].quantity)")
+
+        // Force a new copy of the entire array to trigger @State update
+        var updatedDrinks = drinks
+        let newQuantity = max(0, updatedDrinks[index].quantity + delta)
+        updatedDrinks[index].quantity = newQuantity
+        drinks = updatedDrinks
+
+        print("✅ Drink updated - \(drinks[index].title) now has quantity: \(drinks[index].quantity)")
     }
 
     // Composizione ticket
@@ -159,8 +182,8 @@ struct ContentView: View {
 
         let now = Date().formatted(date: .abbreviated, time: .shortened)
         var lines: [String] = []
-        lines.append(NSLocalizedString("=== Order Room 1 ===", comment: "Order Room 1 header"))
-        lines.append(NSLocalizedString("Room: 1", comment: "Room number"))
+        lines.append(String(format: NSLocalizedString("=== Order Room %d ===", comment: "Order Room header"), RoomConfig.roomNumber))
+        lines.append(String(format: NSLocalizedString("Room: %d", comment: "Room number"), RoomConfig.roomNumber))
         lines.append(String(format: NSLocalizedString("Date/Time: %1$@", comment: "Date/Time"), now))
         lines.append("")
 
@@ -173,12 +196,18 @@ struct ContentView: View {
         }
 
         let chosen = drinks.filter { $0.quantity > 0 }
+        print("🍹 Drinks with quantity > 0: \(chosen.count)")
+        for d in chosen {
+            print("   • \(d.title) x\(d.quantity)")
+        }
+
         if chosen.isEmpty {
             lines.append(NSLocalizedString("Drinks: none", comment: "No drinks"))
         } else {
             lines.append(NSLocalizedString("Drinks:", comment: "Drinks label"))
             for d in chosen {
-                lines.append(" • \(d.title) x\(d.quantity)")
+                let localizedName = NSLocalizedString(d.title, comment: "Drink name")
+                lines.append(" • \(localizedName) x\(d.quantity)")
             }
         }
 
@@ -191,11 +220,25 @@ struct ContentView: View {
         BottomBar(
             isSending: isSending,
             primaryButtonTitle: buttonTitle,
-            onPrimary: { showPreview = true },
+            onPrimary: showPreviewWithValidation,
             onChangePrinter: nil,
             onForgetPrinter: nil,
             onCallWaiter: callWaiter
         )
+    }
+
+    private func showPreviewWithValidation() {
+        // Check if something is selected
+        let hasSelectedMenu = selectedMenu != nil
+        let hasSelectedDrinks = drinks.contains { $0.quantity > 0 }
+
+        if !hasSelectedMenu && !hasSelectedDrinks {
+            showEmptyOrderAlert = true
+            return
+        }
+
+        // Valid selection, show preview
+        showPreview = true
     }
 
     private func callWaiter() {
@@ -209,7 +252,7 @@ struct ContentView: View {
 
         // Send special service request
         orderSender.sendOrder(
-            roomNumber: "1",
+            roomNumber: "\(RoomConfig.roomNumber)",
             menuItems: [NSLocalizedString("Room service: call waiter", comment: "Room service: call waiter")],
             drinks: []
         ) { success in

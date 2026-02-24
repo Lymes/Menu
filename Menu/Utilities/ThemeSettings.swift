@@ -6,10 +6,10 @@ import Combine
 final class ThemeSettings: ObservableObject {
     let objectWillChange = ObservableObjectPublisher()
 
-    @AppStorage("theme.scheme") private var schemeRawValue: String = AppColorScheme.orange.rawValue
+    @AppStorage("theme.scheme") private var schemeRawValue: String = AppColorScheme.red.rawValue
 
     var scheme: AppColorScheme {
-       get { AppColorScheme(rawValue: schemeRawValue) ?? .blue }
+       get { AppColorScheme(rawValue: schemeRawValue) ?? .red }
         set {
             schemeRawValue = newValue.rawValue
             objectWillChange.send()

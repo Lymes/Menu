@@ -15,9 +15,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "78BE4EE32F36593C0003DA42"
-               BuildableName = "Menu.app"
-               BlueprintName = "Menu"
+               BlueprintIdentifier = "787B68952F4E324100D108C6"
+               BuildableName = "Menu Stanza 2.app"
+               BlueprintName = "Menu Stanza 2"
                ReferencedContainer = "container:Menu.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -44,9 +44,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "78BE4EE32F36593C0003DA42"
-            BuildableName = "Menu.app"
-            BlueprintName = "Menu"
+            BlueprintIdentifier = "787B68952F4E324100D108C6"
+            BuildableName = "Menu Stanza 2.app"
+            BlueprintName = "Menu Stanza 2"
             ReferencedContainer = "container:Menu.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -61,9 +61,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "78BE4EE32F36593C0003DA42"
-            BuildableName = "Menu.app"
-            BlueprintName = "Menu"
+            BlueprintIdentifier = "787B68952F4E324100D108C6"
+            BuildableName = "Menu Stanza 2.app"
+            BlueprintName = "Menu Stanza 2"
             ReferencedContainer = "container:Menu.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

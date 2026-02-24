@@ -3,6 +3,11 @@
 "List" = "Liste";
 "Fixed Menus" = "Feste Menüs";
 "Drinks" = "Getränke";
+"Nothing Selected" = "Nichts ausgewählt";
+"Please select at least one menu or drink before sending the order." = "Bitte wählen Sie mindestens ein Menü oder ein Getränk aus, bevor Sie die Bestellung senden.";
+"Order Room %d" = "Bestellung Zimmer %d";
+"=== Order Room %d ===" = "=== Bestellung Zimmer %d ===";
+"Room: %d" = "Zimmer: %d";
 "Current printer: %1$@" = "Aktueller Drucker: %1$@";
 "No printer selected" = "Kein Drucker ausgewählt";
 "Change printer" = "Drucker wechseln";
@@ -10,9 +15,6 @@
 "Close" = "Schließen";
 "Send" = "Senden";
 "Preview" = "Vorschau";
-"Order Room 1" = "Bestellung Zimmer 1";
-"=== Order Room 1 ===" = "=== Bestellung Zimmer 1 ===";
-"Room: 1" = "Zimmer: 1";
 "Date/Time: %1$@" = "Datum/Uhrzeit: %1$@";
 "Menu: %1$@" = "Menü: %1$@";
 "Menu: —" = "Menü: —";

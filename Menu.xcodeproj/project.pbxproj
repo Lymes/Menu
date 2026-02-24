@@ -7,11 +7,26 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		78BE4EE42F36593C0003DA42 /* Menu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Menu.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		787B689C2F4E324100D108C6 /* Menu Stanza 2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Menu Stanza 2.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		78BE4EE42F36593C0003DA42 /* Menu Stanza 1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Menu Stanza 1.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		78E096552F48BE9800BFD8AC /* MenuServer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MenuServer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		7819B42C2F4E36B700698D62 /* Exceptions for "Menu" folder in "Menu Stanza 2" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Config/Stanza1/RoomConfig.swift,
+			);
+			target = 787B68952F4E324100D108C6 /* Menu Stanza 2 */;
+		};
+		7819B42D2F4E36BB00698D62 /* Exceptions for "Menu" folder in "Menu Stanza 1" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Config/Stanza2/RoomConfig.swift,
+			);
+			target = 78BE4EE32F36593C0003DA42 /* Menu Stanza 1 */;
+		};
 		78E0966F2F48BF4A00BFD8AC /* Exceptions for "MenuServer" folder in "MenuServer" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -24,6 +39,10 @@
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		78BE4EE62F36593C0003DA42 /* Menu */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				7819B42D2F4E36BB00698D62 /* Exceptions for "Menu" folder in "Menu Stanza 1" target */,
+				7819B42C2F4E36B700698D62 /* Exceptions for "Menu" folder in "Menu Stanza 2" target */,
+			);
 			path = Menu;
 			sourceTree = "<group>";
 		};
@@ -38,6 +57,13 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		787B68972F4E324100D108C6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		78BE4EE12F36593C0003DA42 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -68,8 +94,9 @@
 		78BE4EE52F36593C0003DA42 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				78BE4EE42F36593C0003DA42 /* Menu.app */,
+				78BE4EE42F36593C0003DA42 /* Menu Stanza 1.app */,
 				78E096552F48BE9800BFD8AC /* MenuServer.app */,
+				787B689C2F4E324100D108C6 /* Menu Stanza 2.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -77,9 +104,31 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		78BE4EE32F36593C0003DA42 /* Menu */ = {
+		787B68952F4E324100D108C6 /* Menu Stanza 2 */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 78BE4EEF2F36593E0003DA42 /* Build configuration list for PBXNativeTarget "Menu" */;
+			buildConfigurationList = 787B68992F4E324100D108C6 /* Build configuration list for PBXNativeTarget "Menu Stanza 2" */;
+			buildPhases = (
+				787B68962F4E324100D108C6 /* Sources */,
+				787B68972F4E324100D108C6 /* Frameworks */,
+				787B68982F4E324100D108C6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				78BE4EE62F36593C0003DA42 /* Menu */,
+			);
+			name = "Menu Stanza 2";
+			packageProductDependencies = (
+			);
+			productName = Menu;
+			productReference = 787B689C2F4E324100D108C6 /* Menu Stanza 2.app */;
+			productType = "com.apple.product-type.application";
+		};
+		78BE4EE32F36593C0003DA42 /* Menu Stanza 1 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 78BE4EEF2F36593E0003DA42 /* Build configuration list for PBXNativeTarget "Menu Stanza 1" */;
 			buildPhases = (
 				78BE4EE02F36593C0003DA42 /* Sources */,
 				78BE4EE12F36593C0003DA42 /* Frameworks */,
@@ -92,11 +141,11 @@
 			fileSystemSynchronizedGroups = (
 				78BE4EE62F36593C0003DA42 /* Menu */,
 			);
-			name = Menu;
+			name = "Menu Stanza 1";
 			packageProductDependencies = (
 			);
 			productName = Menu;
-			productReference = 78BE4EE42F36593C0003DA42 /* Menu.app */;
+			productReference = 78BE4EE42F36593C0003DA42 /* Menu Stanza 1.app */;
 			productType = "com.apple.product-type.application";
 		};
 		78E096542F48BE9800BFD8AC /* MenuServer */ = {
@@ -154,13 +203,21 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				78BE4EE32F36593C0003DA42 /* Menu */,
+				78BE4EE32F36593C0003DA42 /* Menu Stanza 1 */,
+				787B68952F4E324100D108C6 /* Menu Stanza 2 */,
 				78E096542F48BE9800BFD8AC /* MenuServer */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		787B68982F4E324100D108C6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		78BE4EE22F36593C0003DA42 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -178,6 +235,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		787B68962F4E324100D108C6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		78BE4EE02F36593C0003DA42 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -195,6 +259,77 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		787B689A2F4E324100D108C6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = T6DP4Z2623;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Menu Stanza 2";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "MenuStanza2 needs local network access to send orders to MenuServer";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.youus.MenuStanza2;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		787B689B2F4E324100D108C6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = T6DP4Z2623;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Menu Stanza 2";
+				INFOPLIST_KEY_NSBonjourServices = _menuorder._tcp;
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "MenuStanza2 needs local network access to send orders to MenuServer";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.youus.MenuStanza2;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		78BE4EED2F36593E0003DA42 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -457,6 +592,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		787B68992F4E324100D108C6 /* Build configuration list for PBXNativeTarget "Menu Stanza 2" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				787B689A2F4E324100D108C6 /* Debug */,
+				787B689B2F4E324100D108C6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		78BE4EDF2F36593C0003DA42 /* Build configuration list for PBXProject "Menu" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -466,7 +610,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		78BE4EEF2F36593E0003DA42 /* Build configuration list for PBXNativeTarget "Menu" */ = {
+		78BE4EEF2F36593E0003DA42 /* Build configuration list for PBXNativeTarget "Menu Stanza 1" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				78BE4EF02F36593E0003DA42 /* Debug */,

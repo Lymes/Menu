@@ -3,6 +3,11 @@
 "List" = "List";
 "Fixed Menus" = "Fixed Menus";
 "Drinks" = "Drinks";
+"Nothing Selected" = "Nothing Selected";
+"Please select at least one menu or drink before sending the order." = "Please select at least one menu or drink before sending the order.";
+"Order Room %d" = "Order Room %d";
+"=== Order Room %d ===" = "=== Order Room %d ===";
+"Room: %d" = "Room: %d";
 "Current printer: %1$@" = "Current printer: %1$@";
 "No printer selected" = "No printer selected";
 "Change printer" = "Change printer";
@@ -10,9 +15,6 @@
 "Close" = "Close";
 "Send" = "Send";
 "Preview" = "Preview";
-"Order Room 1" = "Order Room 1";
-"=== Order Room 1 ===" = "=== Order Room 1 ===";
-"Room: 1" = "Room: 1";
 "Date/Time: %1$@" = "Date/Time: %1$@";
 "Menu: %1$@" = "Menu: %1$@";
 "Menu: —" = "Menu: —";
