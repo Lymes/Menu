@@ -22,7 +22,7 @@ struct BottomBar: View {
 
             if let onCallWaiter = onCallWaiter {
                 Button(action: onCallWaiter) {
-                    Label(NSLocalizedString("Chiama cameriere", comment: "Call waiter"), systemImage: "bell.fill")
+                    Label(NSLocalizedString("Call waiter", comment: "Call waiter"), systemImage: "bell.fill")
                 }
                 .font(.callout)
                 .padding(.vertical, 10)
@@ -31,7 +31,22 @@ struct BottomBar: View {
                 .foregroundColor(theme.accent)
                 .clipShape(RoundedRectangle(cornerRadius: 10))
             }
-            
+
+            // Powered by Youus
+            HStack(alignment: .center, spacing: 4) {
+                Text("Powered by")
+                    .font(.caption2)
+                    .foregroundColor(.secondary)
+
+                Image("youus")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: 30)
+                    .opacity(0.7)
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.top, 4)
+
             if let onChangePrinter = onChangePrinter {
                 Button(NSLocalizedString("Cambia stampante", comment: "Change printer"), action: onChangePrinter)
                     .font(.callout)

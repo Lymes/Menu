@@ -112,7 +112,7 @@ class OrderSenderService: ObservableObject {
         } else {
             // Try direct connection to localhost as last resort
             print("📤 No server found, trying direct localhost connection...")
-            let fallbackEndpoint = NWEndpoint.hostPort(host: .ipv4(.loopback), port: NWEndpoint.Port(integerLiteral: 8888))
+            let fallbackEndpoint = NWEndpoint.hostPort(host: "172.16.55.100", port: NWEndpoint.Port(integerLiteral: 8888))
             connectAndSend(to: fallbackEndpoint, data: jsonData, completion: completion)
         }
     }
@@ -164,14 +164,14 @@ class OrderSenderService: ObservableObject {
         print("🔄 Trying fallback discovery mechanism...")
 
         // Try direct connection to known port
-        let fallbackEndpoint = NWEndpoint.hostPort(host: .ipv4(.loopback), port: NWEndpoint.Port(integerLiteral: 8888))
+        let fallbackEndpoint = NWEndpoint.hostPort(host: "172.16.55.100", port: NWEndpoint.Port(integerLiteral: 8888))
         let testConnection = NWConnection(to: fallbackEndpoint, using: .tcp)
 
         testConnection.stateUpdateHandler = { [weak self] state in
             Task { @MainActor in
                 switch state {
                 case .ready:
-                    print("✅ Fallback: Found server on localhost:8888")
+                    print("✅ Fallback: Found server on 172.16.55.100:8888")
 
                     // Create a fallback endpoint and add to discovered servers
                     self?.discoveredServers = []

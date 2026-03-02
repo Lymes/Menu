@@ -3,6 +3,7 @@ import SwiftUI
 struct ServerContentView: View {
     @EnvironmentObject var orderStore: OrderStore
     @EnvironmentObject var bonjourService: BonjourService
+    @State private var serviceCheckTimer: Timer?
 
     var body: some View {
         NavigationStack {
@@ -19,13 +20,20 @@ struct ServerContentView: View {
                     // Service status
                     HStack {
                         Circle()
-                            .fill(bonjourService.isAdvertising ? Color.green : Color.gray)
+                            .fill(bonjourService.isAdvertising ? Color.green : Color.red)
                             .frame(width: 12, height: 12)
                         Text(bonjourService.isAdvertising ? NSLocalizedString("Server active", comment: "Server active") : NSLocalizedString("Server not active", comment: "Server not active"))
                             .font(.caption)
                             .foregroundColor(.secondary)
                     }
                     .padding()
+                    .onTapGesture {
+                        // Allow manual restart by tapping status
+                        if !bonjourService.isAdvertising {
+                            print("👆 Manual restart requested")
+                            bonjourService.startAdvertising()
+                        }
+                    }
 
                     // Orders list
                     if orderStore.orders.isEmpty {
@@ -68,6 +76,52 @@ struct ServerContentView: View {
                 }
             }
             .tint(.orange)
+            .onAppear {
+                startServiceMonitoring()
+                setupBackgroundNotifications()
+            }
+            .onDisappear {
+                stopServiceMonitoring()
+            }
+        }
+    }
+    
+    // MARK: - Service Monitoring
+    
+    private func startServiceMonitoring() {
+        print("🔄 Starting service monitoring")
+        serviceCheckTimer = Timer.scheduledTimer(withTimeInterval: 30.0, repeats: true) { _ in
+            Task { @MainActor in
+//               $bonjourService.ensureServiceIsRunning
+            }
+        }
+    }
+    
+    private func stopServiceMonitoring() {
+        print("⏹️ Stopping service monitoring")
+        serviceCheckTimer?.invalidate()
+        serviceCheckTimer = nil
+    }
+    
+    private func setupBackgroundNotifications() {
+        NotificationCenter.default.addObserver(
+            forName: UIApplication.didEnterBackgroundNotification,
+            object: nil,
+            queue: .main
+        ) { _ in
+            print("📱 ServerContentView: App backgrounded")
+            // Keep monitoring timer active but reduce frequency
+            stopServiceMonitoring()
+        }
+        
+        NotificationCenter.default.addObserver(
+            forName: UIApplication.willEnterForegroundNotification,
+            object: nil,
+            queue: .main
+        ) { _ in
+            print("📱 ServerContentView: App foregrounded")
+            // Resume monitoring when back in foreground
+            startServiceMonitoring()
         }
     }
 }

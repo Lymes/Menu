@@ -41,6 +41,7 @@
 "Server not found" = "Server nicht gefunden";
 "OK" = "OK";
 "Cannot find Menu Server on the network. Make sure the server is running and both devices are on the same WiFi network." = "Menü Server im Netzwerk nicht gefunden. Stellen Sie sicher, dass der Server läuft und beide Geräte im selben WLAN sind.";
+"Call waiter" = "Kellner rufen";
 
 /* Drinks */
 "drink.water.with.gas" = "Mineralwasser mit Kohlensäure";

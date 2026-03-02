@@ -41,7 +41,7 @@
 "Server not found" = "Server not found";
 "OK" = "OK";
 "Cannot find Menu Server on the network. Make sure the server is running and both devices are on the same WiFi network." = "Cannot find Menu Server on the network. Make sure the server is running and both devices are on the same WiFi network.";
-
+"Call waiter" = "Call waiter";
 /* Drinks */
 "drink.water.with.gas" = "Mineral water with gas";
 "drink.water.without.gas" = "Mineral water without gas";
