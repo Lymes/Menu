@@ -16,21 +16,48 @@ class OrderSenderService: ObservableObject {
     func startDiscovery() {
         print("🔍 Starting Bonjour discovery for \(BonjourConstants.serviceType).\(BonjourConstants.serviceDomain)")
 
+        // Stop any existing browser first
+        stopDiscovery()
+
         let parameters = NWParameters()
         parameters.includePeerToPeer = true
+
+        // Allow reusing discovery
+        parameters.allowLocalEndpointReuse = true
 
         browser = NWBrowser(for: .bonjour(type: BonjourConstants.serviceType, domain: BonjourConstants.serviceDomain), using: parameters)
 
         browser?.stateUpdateHandler = { [weak self] state in
             Task { @MainActor in
+                print("📡 Browser state changed: \(state)")
                 switch state {
                 case .ready:
                     print("✅ Browser ready, discovering servers...")
                 case .failed(let error):
                     print("❌ Browser failed: \(error)")
+                    print("❌ Error code: \(error.debugDescription)")
+
+                    // Common error codes and solutions
+                    if error.debugDescription.contains("-65555") || error.debugDescription.contains("NoAuth") {
+                        print("�🚨 LOCAL NETWORK PERMISSION DENIED!")
+                        print("💡 Solution 1: Go to iOS Settings → Privacy & Security → Local Network → Enable for this app")
+                        print("💡 Solution 2: Delete and reinstall the app to trigger permission dialog")
+                        print("💡 Solution 3: On simulator, try 'Device → Erase All Content and Settings' then reinstall")
+
+                        // Try alternative discovery after delay
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                            print("🔄 Attempting fallback discovery...")
+                            self?.tryFallbackDiscovery()
+                        }
+                    }
+
+                case .cancelled:
+                    print("⏹️ Browser cancelled")
                 case .waiting(let error):
                     print("⏳ Browser waiting: \(error)")
-                default:
+                case .setup:
+                    print("⚙️ Browser setup")
+                @unknown default:
                     print("🔄 Browser state: \(state)")
                     break
                 }
@@ -63,12 +90,6 @@ class OrderSenderService: ObservableObject {
     }
 
     func sendOrder(roomNumber: String, menuItems: [String], drinks: [(name: String, quantity: Int)], completion: @escaping (Bool) -> Void) {
-        guard let server = selectedServer else {
-            print("❌ No server selected - still discovering...")
-            completion(false)
-            return
-        }
-        
         let orderData = OrderTransferData(
             roomNumber: roomNumber,
             menuItems: menuItems,
@@ -80,11 +101,22 @@ class OrderSenderService: ObservableObject {
             completion(false)
             return
         }
-        
-        print("📤 Sending order to server: \(server.endpoint)")
-        connectAndSend(to: server.endpoint, data: jsonData, completion: completion)
+
+        // Check if we have a server or fallback connection
+        if let server = selectedServer {
+            print("📤 Sending order to server: \(server.endpoint)")
+            connectAndSend(to: server.endpoint, data: jsonData, completion: completion)
+        } else if let existingConnection = connection, isConnected {
+            print("📤 Sending order via fallback connection")
+            sendData(connection: existingConnection, data: jsonData, completion: completion)
+        } else {
+            // Try direct connection to localhost as last resort
+            print("📤 No server found, trying direct localhost connection...")
+            let fallbackEndpoint = NWEndpoint.hostPort(host: .ipv4(.loopback), port: NWEndpoint.Port(integerLiteral: 8888))
+            connectAndSend(to: fallbackEndpoint, data: jsonData, completion: completion)
+        }
     }
-    
+
     private func connectAndSend(to endpoint: NWEndpoint, data: Data, completion: @escaping (Bool) -> Void) {
         let connection = NWConnection(to: endpoint, using: .tcp)
 
@@ -126,5 +158,49 @@ class OrderSenderService: ObservableObject {
                 self.isConnected = false
             }
         })
+    }
+
+    private func tryFallbackDiscovery() {
+        print("🔄 Trying fallback discovery mechanism...")
+
+        // Try direct connection to known port
+        let fallbackEndpoint = NWEndpoint.hostPort(host: .ipv4(.loopback), port: NWEndpoint.Port(integerLiteral: 8888))
+        let testConnection = NWConnection(to: fallbackEndpoint, using: .tcp)
+
+        testConnection.stateUpdateHandler = { [weak self] state in
+            Task { @MainActor in
+                switch state {
+                case .ready:
+                    print("✅ Fallback: Found server on localhost:8888")
+
+                    // Create a fallback endpoint and add to discovered servers
+                    self?.discoveredServers = []
+                    self?.selectedServer = nil
+
+                    // Set the fallback endpoint directly
+                    if let self = self {
+                        // Use a direct endpoint connection instead of Bonjour result
+                        self.connection = testConnection
+                        self.isConnected = true
+
+                        print("✅ Using direct connection to MenuServer")
+                        // Don't cancel - keep this connection for sending orders
+                    }
+
+                case .failed:
+                    print("❌ Fallback failed - server not running on localhost:8888")
+                    testConnection.cancel()
+                default:
+                    break
+                }
+            }
+        }
+
+        testConnection.start(queue: .main)
+
+        // Cancel test connection after 3 seconds
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+            testConnection.cancel()
+        }
     }
 }
